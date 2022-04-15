@@ -79,3 +79,18 @@ For example:
 ```cron
 */15 * * * * /path/to/python/or/venv /path/to/cloned/repository/script.py
 ```
+
+
+## FAQ
+
+#### I am getting Error TypeError: 'type' object is not subscriptable
+
+Please upgrade to > Python3.9
+
+#### How will I know if my tokens have expired?
+
+Currently I haven't implemented a very good error notification system and the script won't really throw errors. It'll just keep trying. However, if you notice it stops working, re-run auth.py
+
+#### After 24 hours, the script stops working
+
+I have noticed that when asking for a token, Monzo does not issue any refresh token, meaning it is hard to sustain the script for longer. However, the script is supposed to refresh the token and if they do fix it, it will work without an update! 
