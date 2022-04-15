@@ -130,7 +130,17 @@ if not get_transactions():
     if not get_transactions():
         print("ERROR! Truelayer needs to be re-authenticated. Please run auth.py")
     else:
-        monzo_them()
+        if not monzo_them():
+            try:
+                monzo_refresh_token()
+            except:
+                pass
+            monzo_them()
 else:
-    monzo_them()
+    if not monzo_them():
+        try:
+            monzo_refresh_token()
+        except:
+            pass
+        monzo_them()
         
