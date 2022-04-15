@@ -5,6 +5,7 @@ A script to synchronise Amex Transactions and Monzo, which can be setup to be ru
 #### Requirements
 - Monzo Account
 - American Express Account 
+- Python >3.9 (Virtual Env is recommended!)
 
 
 | :exclamation:  Attention :exclamation:  |
