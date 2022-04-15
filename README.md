@@ -94,3 +94,6 @@ Currently I haven't implemented a very good error notification system and the sc
 #### After 24 hours, the script stops working
 
 I have noticed that when asking for a token, Monzo does not issue any refresh token, meaning it is hard to sustain the script for longer. However, the script is supposed to refresh the token and if they do fix it, it will work without an update! 
+
+## License
+[Common Clause](https://commonsclause.com)
