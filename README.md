@@ -5,6 +5,15 @@ A script to synchronise Amex Transactions and Monzo, which can be setup to be ru
 #### Requirements
 - Monzo Account
 - American Express Account 
+
+
+| :exclamation:  This is very important   |
+|-----------------------------------------|
+Monzo needs to fix their refresh_tokens so unfortunately, until they do so, the script will only work for 24 hours at a time. [Please help me draw attention to this here.](https://community.monzo.com/t/exchanging-authorisation-code-giving-everything-except-refresh-token/131532)
+
+
+
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
