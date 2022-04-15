@@ -1,0 +1,3 @@
+peewee
+requests
+python-dotenv
