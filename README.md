@@ -12,6 +12,8 @@ A script to synchronise Amex Transactions and Monzo, which can be setup to be ru
 |-----------------------------------------|
 The issue with the refresh token I had highlighted was in fact a misconfiguration! When you are creating your Monzo 'client', make sure to make it 'Confidential"!
 
+#### Work In progress
+- GUI for setting up and monitoring
 
 
 ## Environment Variables
