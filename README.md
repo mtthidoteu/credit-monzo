@@ -10,8 +10,7 @@ A script to synchronise Amex Transactions and Monzo, which can be setup to be ru
 
 | :exclamation:  Attention :exclamation:  |
 |-----------------------------------------|
-There is currently a problem with Monzo and their refresh_tokens so unfortunately, until they do so, the script will only work for 24 hours at a time. [Please help me draw attention to this here.](https://community.monzo.com/t/exchanging-authorisation-code-giving-everything-except-refresh-token/131532) 
-
+The issue with the refresh token I had highlighted was in fact a misconfiguration! When you are creating yor Monzo 'client', make sure to make it 'Confidential"!
 
 
 
