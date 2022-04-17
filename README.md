@@ -48,7 +48,7 @@ Clone the project into directory
 - In Monzo Playground, make a GET request to `/pots?current_account_id=$account_id`
 - Locate and Add your Amex Pot's ID into `.env`
 - Make note of your 'account_id' and add it to `.env`
-- In Monzo Developers, create a Client with `Redirect URL` set to `http://localhost:5000/callback`
+- In Monzo Developers, create a Client with `Redirect URL` set to `http://127.0.0.1:5000/callback` and 'Confidentiality' set to 'Confindetial'!
 - Add newly created Client ID and Client Secret to `.env`
 - Install dependencies
 
