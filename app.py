@@ -64,7 +64,6 @@ if command == "run":
             script.monzo_refresh_token()
             if not script.monzo_them():
                 script.warn("monzo")
-    print(f"Amex-Monzo ran at {datetime.now()}")
 
 elif command == "auth":
     print("Welcome to the amex-monzo authenticaton script!")
