@@ -4,8 +4,6 @@ from datetime import datetime
 from peewee import *
 import requests
 import os
-
-
 import smtplib
 import ssl
 
