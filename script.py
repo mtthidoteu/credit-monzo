@@ -4,7 +4,10 @@ from datetime import datetime
 from peewee import *
 import requests
 import os
-import smtplib, ssl
+
+from app import Data, Transactions
+import smtplib
+import ssl
 
 
 from dotenv import load_dotenv
@@ -17,6 +20,7 @@ truelayer_client_secret = os.getenv("truelayer_client_secret")
 monzo_client_id = os.getenv("monzo_client_id")
 monzo_client_secret = os.getenv("monzo_client_secret")
 
+
 def sendmail(subject, body):
     try:
         message = f"""
@@ -26,15 +30,16 @@ def sendmail(subject, body):
 
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(os.getenv("SMTP_SERVER"), os.getenv("SMTP_PORT"), context=context) as server:
-            server.login(os.getenv("SMTP_USERNAME"), os.getenv("SMTP_PASSWORD"))
-            server.sendmail(os.getenv("SMTP_SENDER_EMAIL"), os.getenv("EMAIL"), message)
+            server.login(os.getenv("SMTP_USERNAME"),
+                         os.getenv("SMTP_PASSWORD"))
+            server.sendmail(os.getenv("SMTP_SENDER_EMAIL"),
+                            os.getenv("EMAIL"), message)
     except:
         pass
-    
+
 
 def get_refresh_token():
     url = "https://auth.truelayer.com/connect/token"
-
 
     payload = {
         "grant_type": "refresh_token",
@@ -51,13 +56,14 @@ def get_refresh_token():
 
     response = requests.request("POST", url, json=payload, headers=headers)
 
-    
-
     if not response.ok:
         return False
-    Data.update(value = response.json()["access_token"]).where(Data.key == "access_token").execute()
-    Data.update(value = response.json()["refresh_token"]).where(Data.key == "refresh_token").execute()
+    Data.update(value=response.json()["access_token"]).where(
+        Data.key == "access_token").execute()
+    Data.update(value=response.json()["refresh_token"]).where(
+        Data.key == "refresh_token").execute()
     return True
+
 
 def get_transactions():
     access_token = Data.get(key="access_token").value
@@ -76,11 +82,10 @@ def get_transactions():
             description=transaction["description"])
     return True
 
+
 def monzo_refresh_token():
 
-
     url = "https://api.monzo.com/oauth2/token"
-
 
     payload = {
         "grant_type": "refresh_token",
@@ -95,20 +100,23 @@ def monzo_refresh_token():
     }
 
     response = requests.request("POST", url, json=payload, headers=headers)
-    
 
     if not response.ok:
         return False
-    Data.update(value = response.json()["access_token"]).where(Data.key == "monzo_access_token").execute()
-    Data.update(value = response.json()["refresh_token"]).where(Data.key == "monzo_refresh_token").execute()
+    Data.update(value=response.json()["access_token"]).where(
+        Data.key == "monzo_access_token").execute()
+    Data.update(value=response.json()["refresh_token"]).where(
+        Data.key == "monzo_refresh_token").execute()
     return True
+
 
 def monzo_them():
 
     for transaction in Transactions.select().where(Transactions.monzoed == None or Transactions.monzoed != 1):
         amount = int(transaction.amount*100)
         if monzo(amount):
-            Transactions.update(monzoed = 1).where(Transactions.id == transaction.id).execute()
+            Transactions.update(monzoed=1).where(
+                Transactions.id == transaction.id).execute()
             return True
         else:
             print("Could not monzo them :(")
@@ -116,13 +124,13 @@ def monzo_them():
             return False
     return True
 
-def monzo(amount):
 
+def monzo(amount):
 
     amount = int(amount)
     pot = os.getenv("pot_id")
     url = f"https://api.monzo.com/pots/{pot}/deposit"
-    access_token = Data.get(key = "monzo_access_token").value
+    access_token = Data.get(key="monzo_access_token").value
 
     payload = {
         "source_account_id": os.getenv("monzo_account_id"),
@@ -135,7 +143,7 @@ def monzo(amount):
     }
 
     response = requests.put(url, data=payload, headers=headers)
-    
+
     if not response.ok:
         print("error monzoing! error is:")
         print(response.text)
@@ -143,8 +151,9 @@ def monzo(amount):
 
     return True
 
-def warn(service):
-    print(f"Error! Despite attempting to refresh its token, {service.capitalize()}, still cannot be reached. Please try running auth.py!")
-    sendmail(f"Error on {service}", f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
-from app import Data, Transactions
+def warn(service):
+    print(
+        f"Error! Despite attempting to refresh its token, {service.capitalize()}, still cannot be reached. Please try running auth.py!")
+    sendmail(f"Error on {service}",
+             f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
