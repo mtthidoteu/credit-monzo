@@ -113,6 +113,7 @@ def monzo_them():
             print("Could not monzo them :(")
             print("Trying to reauth with Monzo!")
             return False
+    return True
 
 def monzo(amount):
 
@@ -156,9 +157,8 @@ if not get_transactions():
             if not monzo_them():
                 warn("monzo")   
 else:
-    print("Truelayer okay!")
-    try:
-        monzo_them()
-    except:
+    if not monzo_them():
         monzo_refresh_token()
-        monzo_them()
+        if not monzo_them():
+            warn("monzo")
+        
