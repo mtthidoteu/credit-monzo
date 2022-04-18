@@ -59,7 +59,7 @@ Clone the project into directory
 ```
 -  Run authentication script
 ```bash
-  python auth.py
+  python app.py auth
 ```
 - Following Instructions carefully! Make sure to read each line!
 - If the script has succeeded, you should be good to go!
@@ -68,7 +68,7 @@ Clone the project into directory
 Once the setup has been completed. You should be able to run a synchronisation by running
 
 ```bash
-python script.py
+python app.py run
 ```
 This will download all your 'pending transactions' from your Amex account and add them to our database. It will then deposit that amount into a pot!
 
@@ -79,7 +79,7 @@ You will probably have noticed but this script doesn't monitor transactions it o
 For example:
 
 ```cron
-*/15 * * * * /path/to/python/or/venv /path/to/cloned/repository/script.py
+*/15 * * * * /path/to/python/or/venv /path/to/cloned/repository/app.py run
 ```
 
 
@@ -91,11 +91,7 @@ Please upgrade to > Python3.9
 
 #### How will I know if my tokens have expired?
 
-Currently I haven't implemented a very good error notification system and the script won't really throw errors. It'll just keep trying. However, if you notice it stops working, re-run auth.py
-
-#### After 24 hours, the script stops working
-
-I have noticed that when asking for a token, Monzo does not issue any refresh token, meaning it is hard to sustain the script for longer. However, the script is supposed to refresh the token and if they do fix it, it will work without an update! 
+Currently I haven't implemented a very good error notification system and the script won't really throw errors. It'll just keep trying. However, if you notice it stops working, re-run `python app.py auth`
 
 ## License
 [Common Clause](https://commonsclause.com)
