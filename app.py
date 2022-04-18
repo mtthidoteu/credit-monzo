@@ -1,7 +1,8 @@
 from peewee import *
 from dotenv import load_dotenv
 import sys
-
+from auth import *
+from script import *
 
 load_dotenv()
 
@@ -76,5 +77,3 @@ else:
     print(f"Invalid Usage: python {sys.argv[0]} run|auth")
     exit()
 
-from auth import *
-from script import *

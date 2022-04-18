@@ -1,4 +1,4 @@
-from app import Data
+
 from dotenv import load_dotenv
 import requests
 import os
@@ -172,11 +172,4 @@ def reauth():
 
     
 
-print("Welcome to the amex-monzo authenticaton script!")
-arg = input("Is this your first time? (yes/no): ")
-if arg == "yes":
-    auth()
-elif arg == "no":
-    reauth()
-else:
-    print("Invalid Input")
+from app import Data

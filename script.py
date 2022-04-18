@@ -1,4 +1,4 @@
-from app import Data, Transactions
+
 from dotenv import load_dotenv
 from datetime import datetime
 from peewee import *
@@ -147,4 +147,4 @@ def warn(service):
     print(f"Error! Despite attempting to refresh its token, {service.capitalize()}, still cannot be reached. Please try running auth.py!")
     sendmail(f"Error on {service}", f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
-        
+from app import Data, Transactions
