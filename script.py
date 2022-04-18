@@ -108,9 +108,11 @@ def monzo_them():
         amount = int(transaction.amount*100)
         if monzo(amount):
             Transactions.update(monzoed = 1).where(Transactions.id == transaction.id).execute()
+            return True
         else:
             print("Could not monzo them :(")
             print("Trying to reauth with Monzo!")
+            return False
 
 def monzo(amount):
 
