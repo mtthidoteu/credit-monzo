@@ -112,6 +112,9 @@ def check_variables():
     if os.getenv("pot_id") is None:
         print("Could not find pot_id! See docs.")
         exit()
+    if os.getenv("monzo_account_id") is None:
+        print("Could not find pot_id! See docs.")
+        exit()
 
 def check_balance_for_testing_purposes():
     access_token = app.Data.get(key="access_token").value
