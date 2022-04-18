@@ -17,15 +17,18 @@ monzo_client_id = os.getenv("monzo_client_id")
 monzo_client_secret = os.getenv("monzo_client_secret")
 
 def sendmail(subject, body):
-    message = f"""
-    Subject:{subject}
+    try:
+        message = f"""
+        Subject:{subject}
 
-    {body}"""
+        {body}"""
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(os.getenv("SMTP_SERVER"), os.getenv("SMTP_PORT"), context=context) as server:
-        server.login(os.getenv("SMTP_USERNAME"), os.getenv("SMTP_PASSWORD"))
-        server.sendmail(os.getenv("SMTP_SENDER_EMAIL"), os.getenv("EMAIL"), message)
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(os.getenv("SMTP_SERVER"), os.getenv("SMTP_PORT"), context=context) as server:
+            server.login(os.getenv("SMTP_USERNAME"), os.getenv("SMTP_PASSWORD"))
+            server.sendmail(os.getenv("SMTP_SENDER_EMAIL"), os.getenv("EMAIL"), message)
+    except:
+        pass
     
 
 def get_refresh_token():
