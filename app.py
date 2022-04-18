@@ -1,5 +1,6 @@
 from peewee import *
 from dotenv import load_dotenv
+import sys
 
 load_dotenv()
 
@@ -40,3 +41,42 @@ try:
     database.create_tables(models)
 except:
     pass
+
+command = sys.argv[1]
+
+while (command not in ["run" "auth"]):
+    print(f"Invalid Usage: python {sys.argv[0]} run|auth")
+    exit()
+
+if command == "run":
+    if not get_transactions():
+        print("Refreshing Truelayer token!")
+        get_refresh_token()
+        if not get_transactions():
+            warn("truelayer")
+        else:
+            if not monzo_them():
+                monzo_refresh_token()
+                if not monzo_them():
+                    warn("monzo")   
+    else:
+        if not monzo_them():
+            monzo_refresh_token()
+            if not monzo_them():
+                warn("monzo")
+    print(f"Amex-Monzo ran at {datetime.now()}")
+
+elif command == "auth":
+    print("Welcome to the amex-monzo authenticaton script!")
+    arg = input("Is this your first time? (yes/no): ")
+    if arg == "yes":
+        auth()
+    elif arg == "no":
+        reauth()
+    else:
+        print("Invalid Input")
+
+
+
+from auth import *
+from script import *

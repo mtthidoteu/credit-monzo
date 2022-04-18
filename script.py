@@ -147,20 +147,4 @@ def warn(service):
     print(f"Error! Despite attempting to refresh its token, {service.capitalize()}, still cannot be reached. Please try running auth.py!")
     sendmail(f"Error on {service}", f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
-if not get_transactions():
-    print("Refreshing Truelayer token!")
-    get_refresh_token()
-    if not get_transactions():
-        warn("truelayer")
-    else:
-        if not monzo_them():
-            monzo_refresh_token()
-            if not monzo_them():
-                warn("monzo")   
-else:
-    if not monzo_them():
-        monzo_refresh_token()
-        if not monzo_them():
-            warn("monzo")
-print(f"Amex-Monzo ran at {datetime.now()}")
         
