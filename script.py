@@ -44,7 +44,7 @@ def get_refresh_token():
         "client_id": truelayer_client_id,
         "client_secret": truelayer_client_secret,
         "redirect_uri": "https://console.truelayer.com/redirect-page",
-        "refresh_token": Data.get(Data.key == "refresh_token").value,
+        "refresh_token": app.Data.get(app.Data.key == "refresh_token").value,
     }
 
     headers = {
@@ -56,16 +56,16 @@ def get_refresh_token():
 
     if not response.ok:
         return False
-    Data.update(value=response.json()["access_token"]).where(
-        Data.key == "access_token").execute()
-    Data.update(value=response.json()["refresh_token"]).where(
-        Data.key == "refresh_token").execute()
+    app.Data.update(value=response.json()["access_token"]).where(
+        app.Data.key == "access_token").execute()
+    app.Data.update(value=response.json()["refresh_token"]).where(
+        app.Data.key == "refresh_token").execute()
     return True
 
 
 def get_transactions():
-    access_token = Data.get(key="access_token").value
-    account_id = Data.get(key="account_id").value
+    access_token = app.Data.get(key="access_token").value
+    account_id = app.Data.get(key="account_id").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         f'https://api.truelayer.com/data/v1/cards/{account_id}/transactions/pending', headers=auth_header)
@@ -74,7 +74,7 @@ def get_transactions():
 
     transactions = res.json()['results']
     for transaction in transactions:
-        Transactions.get_or_create(
+        app.Transactions.get_or_create(
             transaction_id=transaction["transaction_id"],
             amount=transaction["amount"],
             description=transaction["description"])
@@ -89,7 +89,7 @@ def monzo_refresh_token():
         "grant_type": "refresh_token",
         "client_id": monzo_client_id,
         "client_secret": monzo_client_secret,
-        "refresh_token": Data.get(Data.key == "refresh_token").value,
+        "refresh_token": app.Data.get(app.Data.key == "refresh_token").value,
     }
 
     headers = {
@@ -101,20 +101,20 @@ def monzo_refresh_token():
 
     if not response.ok:
         return False
-    Data.update(value=response.json()["access_token"]).where(
-        Data.key == "monzo_access_token").execute()
-    Data.update(value=response.json()["refresh_token"]).where(
-        Data.key == "monzo_refresh_token").execute()
+    app.Data.update(value=response.json()["access_token"]).where(
+        app.Data.key == "monzo_access_token").execute()
+    app.Data.update(value=response.json()["refresh_token"]).where(
+        app.Data.key == "monzo_refresh_token").execute()
     return True
 
 
 def monzo_them():
 
-    for transaction in Transactions.select().where(Transactions.monzoed == None or Transactions.monzoed != 1):
+    for transaction in app.Transactions.select().where(app.Transactions.monzoed == None or app.Transactions.monzoed != 1):
         amount = int(transaction.amount*100)
         if monzo(amount):
-            Transactions.update(monzoed=1).where(
-                Transactions.id == transaction.id).execute()
+            app.Transactions.update(monzoed=1).where(
+                app.Transactions.id == transaction.id).execute()
             return True
         else:
             print("Could not monzo them :(")
@@ -128,7 +128,7 @@ def monzo(amount):
     amount = int(amount)
     pot = os.getenv("pot_id")
     url = f"https://api.monzo.com/pots/{pot}/deposit"
-    access_token = Data.get(key="monzo_access_token").value
+    access_token = app.Data.get(key="monzo_access_token").value
 
     payload = {
         "source_account_id": os.getenv("monzo_account_id"),
@@ -156,4 +156,4 @@ def warn(service):
     sendmail(f"Error on {service}",
              f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
-from app import Data, Transactions
+import app

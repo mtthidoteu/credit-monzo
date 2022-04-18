@@ -14,8 +14,8 @@ def truelayer_auth_user():
     print('Please visit the following link and copy the token')
     print(f"https://auth.truelayer.com/?response_type=code&client_id={truelayer_client_id}&scope=info%20accounts%20balance%20cards%20transactions%20direct_debits%20standing_orders%20offline_access&redirect_uri=https://console.truelayer.com/redirect-page&providers=uk-oauth-amex&disable_providers=uk-ob-all")
     code = input("Please enter the code: ")
-    Data.delete().where(Data.key == "code").execute()
-    Data.create(key="code", value=code)
+    app.Data.delete().where(app.Data.key == "code").execute()
+    app.Data.create(key="code", value=code)
 
 def truelayer_get_access_token():
     url = "https://auth.truelayer.com/connect/token"
@@ -25,7 +25,7 @@ def truelayer_get_access_token():
         "client_id": truelayer_client_id,
         "client_secret": truelayer_client_secret,
         "redirect_uri": "https://console.truelayer.com/redirect-page",
-        "code": Data.get(Data.key == "code").value,
+        "code": app.Data.get(app.Data.key == "code").value,
     }
 
     headers = {
@@ -41,19 +41,19 @@ def truelayer_get_access_token():
 
     access_token = response.json()["access_token"]
     refresh_token = response.json()["refresh_token"]
-    Data.create(key="access_token", value=access_token)
-    Data.create(key="refresh_token", value=refresh_token)
+    app.Data.create(key="access_token", value=access_token)
+    app.Data.create(key="refresh_token", value=refresh_token)
 
 def truelayer_get_account_id():
-    access_token = Data.get(key="access_token").value
+    access_token = app.Data.get(key="access_token").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         'https://api.truelayer.com/data/v1/cards', headers=auth_header)
     account_id = (res.json()['results'][0])['account_id']
-    Data.create(key="account_id", value=account_id)
+    app.Data.create(key="account_id", value=account_id)
 
 def monzo_token():
-    auth_token = Data.get(key="monzo_auth_token").value
+    auth_token = app.Data.get(key="monzo_auth_token").value
     print(auth_token)
     url = "https://api.monzo.com/oauth2/token"
 
@@ -73,11 +73,11 @@ def monzo_token():
 
     access_token = response.json()["access_token"]
     
-    Data.delete().where(Data.key=="monzo_access_token").execute()
-    Data.create(key="monzo_access_token", value=access_token)
+    app.Data.delete().where(app.Data.key=="monzo_access_token").execute()
+    app.Data.create(key="monzo_access_token", value=access_token)
     try:
         refresh_token = response.json()["refresh_token"]
-        Data.create(key="monzo_refresh_token", value=refresh_token)
+        app.Data.create(key="monzo_refresh_token", value=refresh_token)
     except:
         print("We failed to get a refresh token! This is not our fault and is a problem on Monzo's side. The script will work but only for the next 24 hours and we will not be able to automatically refresh. In other words, you will have to manually re-auth in about 24 hours.")
         pass
@@ -89,10 +89,10 @@ def get_new_monzo():
     print(f"https://auth.monzo.com/?client_id={monzo_client_id}&redirect_uri=http://127.0.0.1:5000/callback&response_type=code&state=hellothere")
     code = input("Please enter the code: ")
     try:
-        Data.delete().where(Data.key == "monzo_auth_token").execute()
+        app.Data.delete().where(app.Data.key == "monzo_auth_token").execute()
     except:
         pass
-    Data.create(key="monzo_auth_token", value=code)
+    app.Data.create(key="monzo_auth_token", value=code)
     print("Thanks! Attempting to get a Monzo Access Token!")
     monzo_token()
 
@@ -114,8 +114,8 @@ def check_variables():
         exit()
 
 def check_balance_for_testing_purposes():
-    access_token = Data.get(key="access_token").value
-    account_id = Data.get(key="account_id").value
+    access_token = app.Data.get(key="access_token").value
+    account_id = app.Data.get(key="account_id").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         f'https://api.truelayer.com/data/v1/cards/{account_id}/balance', headers=auth_header)
@@ -170,4 +170,4 @@ def reauth():
         else:
             exit()
 
-from app import Data
+import app
