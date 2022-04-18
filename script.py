@@ -1,5 +1,6 @@
 from app import Data, Transactions
 from dotenv import load_dotenv
+from datetime import datetime
 from peewee import *
 import requests
 import os
@@ -161,4 +162,5 @@ else:
         monzo_refresh_token()
         if not monzo_them():
             warn("monzo")
+print(f"Script ran at {datetime.now()}")
         
