@@ -162,5 +162,5 @@ else:
         monzo_refresh_token()
         if not monzo_them():
             warn("monzo")
-print(f"Script ran at {datetime.now()}")
+print(f"Amex-Monzo ran at {datetime.now()}")
         
