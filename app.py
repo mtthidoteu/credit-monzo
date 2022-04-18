@@ -44,7 +44,7 @@ except:
 
 command = sys.argv[1]
 
-while (command not in ["run" "auth"]):
+while (command != "run") or (command != "auth"):
     print(f"Invalid Usage: python {sys.argv[0]} run|auth")
     exit()
 
