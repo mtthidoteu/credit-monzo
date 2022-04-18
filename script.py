@@ -157,8 +157,8 @@ if not get_transactions():
                 warn("monzo")   
 else:
     print("Truelayer okay!")
-    if not monzo_them():
+    try:
+        monzo_them()
+    except:
         monzo_refresh_token()
-        if not monzo_them():
-            warn("monzo")
-        
+        monzo_them()
