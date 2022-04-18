@@ -44,11 +44,6 @@ except:
 
 command = sys.argv[1]
 
-print(command)
-while (command != "run") or (command != "auth"):
-    print(f"Invalid Usage: python {sys.argv[0]} run|auth")
-    exit()
-
 if command == "run":
     if not get_transactions():
         print("Refreshing Truelayer token!")
@@ -76,6 +71,9 @@ elif command == "auth":
         reauth()
     else:
         print("Invalid Input")
+else:
+    print(f"Invalid Usage: python {sys.argv[0]} run|auth")
+    exit()
 
 
 
