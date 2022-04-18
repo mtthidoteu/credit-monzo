@@ -2,6 +2,9 @@ from peewee import *
 from dotenv import load_dotenv
 import sys
 
+from auth import *
+from script import *
+
 load_dotenv()
 
 database = SqliteDatabase("./database.db")
@@ -76,6 +79,3 @@ else:
     exit()
 
 
-
-from auth import *
-from script import *
