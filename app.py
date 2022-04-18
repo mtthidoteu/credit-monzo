@@ -2,6 +2,8 @@ from peewee import *
 from dotenv import load_dotenv
 import sys
 from datetime import datetime
+from auth import *
+from script import *
 
 
 load_dotenv()
@@ -47,35 +49,32 @@ except:
 command = sys.argv[1]
 
 if command == "run":
-    if not script.get_transactions():
+    if not get_transactions():
         print("Refreshing Truelayer token!")
-        script.get_refresh_token()
-        if not script.get_transactions():
-            script.warn("truelayer")
+        get_refresh_token()
+        if not get_transactions():
+           warn("truelayer")
         else:
-            if not script.monzo_them():
-                script.monzo_refresh_token()
-                if not script.monzo_them():
-                    script.warn("monzo")   
+            if not monzo_them():
+                monzo_refresh_token()
+                if not monzo_them():
+                    warn("monzo")   
     else:
-        if not script.monzo_them():
-            script.monzo_refresh_token()
-            if not script.monzo_them():
-                script.warn("monzo")
+        if not monzo_them():
+            monzo_refresh_token()
+            if not monzo_them():
+                warn("monzo")
     print(f"Amex-Monzo ran at {datetime.now()}")
 
 elif command == "auth":
     print("Welcome to the amex-monzo authenticaton script!")
     arg = input("Is this your first time? (yes/no): ")
     if arg == "yes":
-        auth.auth()
+        auth()
     elif arg == "no":
-        auth.reauth()
+        reauth()
     else:
         print("Invalid Input")
 else:
     print(f"Invalid Usage: python {sys.argv[0]} run|auth")
     exit()
-
-import auth
-import script

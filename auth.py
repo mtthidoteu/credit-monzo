@@ -170,6 +170,4 @@ def reauth():
         else:
             exit()
 
-    
-
 from app import Data
