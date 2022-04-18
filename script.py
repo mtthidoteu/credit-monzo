@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from peewee import *
 import requests
 import os
+import smtplib, ssl
+
 
 from dotenv import load_dotenv
 
@@ -13,6 +15,21 @@ truelayer_client_id = os.getenv("truelayer_client_id")
 truelayer_client_secret = os.getenv("truelayer_client_secret")
 monzo_client_id = os.getenv("monzo_client_id")
 monzo_client_secret = os.getenv("monzo_client_secret")
+
+def sendmail(subject, body):
+    try:
+        message = f"""
+        Subject:{subject}
+
+        {body}"""
+
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(os.getenv("SMTP_SERVER"), os.getenv("SMTP_PORT"), context=context) as server:
+            server.login(os.getenv("SMTP_USERNAME"), os.getenv("SMTP_PASSWORD"))
+            server.sendmail(os.getenv("SMTP_SENDER_EMAIL"), os.getenv("EMAIL"), message)
+    except:
+        print("SMTP is either not specified or misconfigured. Please check settings.")
+    
 
 def get_refresh_token():
     url = "https://auth.truelayer.com/connect/token"
@@ -123,7 +140,8 @@ def monzo(amount):
     return True
 
 def warn(service):
-    print("Error! Despite attempting to refresh its token, ", service.capitalize()), " still cannot be reached. Please try running auth.py!")
+    print(f"Error! Despite attempting to refresh its token, {service.capitalize()}, still cannot be reached. Please try running auth.py!")
+    sendmail(f"Error on {service}", f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
 if not get_transactions():
     print("Refreshing Truelayer token!")

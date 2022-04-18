@@ -1,5 +1,4 @@
-from app import Data, Transactions
-from script import get_transactions
+from app import Data
 from dotenv import load_dotenv
 import requests
 import os
