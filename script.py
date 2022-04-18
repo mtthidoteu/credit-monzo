@@ -37,7 +37,6 @@ def get_refresh_token():
 
     if not response.ok:
         return False
-        print(response)
     Data.update(value = response.json()["access_token"]).where(Data.key == "access_token").execute()
     Data.update(value = response.json()["refresh_token"]).where(Data.key == "refresh_token").execute()
     return True
@@ -88,16 +87,16 @@ def monzo_refresh_token():
 
 def monzo_them():
 
-    #Get ready to monzo them!
     for transaction in Transactions.select().where(Transactions.monzoed == None or Transactions.monzoed != 1):
         amount = int(transaction.amount*100)
         if monzo(amount):
             Transactions.update(monzoed = 1).where(Transactions.id == transaction.id).execute()
         else:
             print("Could not monzo them :(")
-            print("Trying reauthenticating Monzo!")
+            print("Trying to reauth with Monzo!")
 
 def monzo(amount):
+
 
     amount = int(amount)
     pot = os.getenv("pot_id")
@@ -123,24 +122,22 @@ def monzo(amount):
 
     return True
 
+def warn(service):
+    print("Error! Despite attempting to refresh its token, ", service.capitalize()), " still cannot be reached. Please try running auth.py!")
 
 if not get_transactions():
     print("Refreshing Truelayer token!")
     get_refresh_token()
     if not get_transactions():
-        print("ERROR! Truelayer needs to be re-authenticated. Please run auth.py")
+        warn("truelayer")
     else:
         if not monzo_them():
-            try:
-                monzo_refresh_token()
-            except:
-                pass
-            monzo_them()
+            monzo_refresh_token()
+            if not monzo_them():
+                warn("monzo")   
 else:
     if not monzo_them():
-        try:
-            monzo_refresh_token()
-        except:
-            pass
-        monzo_them()
+        monzo_refresh_token()
+        if not monzo_them():
+            warn("monzo")
         
