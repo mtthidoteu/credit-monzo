@@ -16,7 +16,7 @@ def truelayer_auth_user():
     print(f"https://auth.truelayer.com/?response_type=code&client_id={truelayer_client_id}&scope=info%20accounts%20balance%20cards%20transactions%20direct_debits%20standing_orders%20offline_access&redirect_uri=https://console.truelayer.com/redirect-page&providers=uk-oauth-amex&disable_providers=uk-ob-all")
     code = input("Please enter the code: ")
     Data.delete().where(Data.key == "truelayer_auth_code").execute()
-    Data.create(key="code", value=code)
+    Data.create(key="truelayer_auth_code", value=code)
 
 def truelayer_get_access_token():
     url = "https://auth.truelayer.com/connect/token"
