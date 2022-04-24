@@ -2,8 +2,7 @@ from peewee import *
 from dotenv import load_dotenv
 import sys
 from datetime import datetime
-import auth
-import script
+
 
 
 load_dotenv()
@@ -77,3 +76,5 @@ elif command == "auth":
 else:
     print(f"Invalid Usage: python {sys.argv[0]} run|auth")
     exit()
+import auth
+import script
