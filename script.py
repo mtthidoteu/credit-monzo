@@ -4,6 +4,7 @@ from peewee import *
 import requests
 import os
 import smtplib
+import json
 import ssl
 import sys
 
@@ -148,7 +149,7 @@ def monzo(amount):
     response = requests.put(url, data=payload, headers=headers)
 
     if not response.ok:
-        message = (response.text).json()
+        message = json.loads(response.text)
         if message["code"] == "bad_request.insufficient_funds":
             print("Erorr! Your Monzo account has insufficient funds!")
             exit()
