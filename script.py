@@ -66,7 +66,9 @@ def get_refresh_token():
 
 
 def get_transactions():
-    access_token = Data.get(key="truelayer_access_token").value
+    access_token = Data.get_or_none(key="truelayer_access_token").value
+    if not access_token:
+        print("No access token found. Please run the authentication script.")
     account_id = Data.get(key="truelayer_account_id").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
