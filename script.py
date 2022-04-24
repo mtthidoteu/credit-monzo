@@ -1,6 +1,7 @@
 
 from dotenv import load_dotenv
 from peewee import *
+from datetime import datetime
 import requests
 import os
 import smtplib
@@ -139,7 +140,7 @@ def monzo(amount):
     payload = {
         "source_account_id": os.getenv("monzo_account_id"),
         "amount": amount,
-        "dedupe_id": amount*2
+        "dedupe_id": datetime.now()
     }
 
     headers = {
@@ -151,9 +152,9 @@ def monzo(amount):
     if not response.ok:
         message = json.loads(response.text)
         if message["code"] == "bad_request.insufficient_funds":
-            print("Erorr! Your Monzo account has insufficient funds!")
+            print("Error! Your Monzo account has insufficient funds!")
             exit()
-        if message["code"] == "forbidden.insufficient_permissions":
+        elif message["code"] == "forbidden.insufficient_permissions":
             print("Error! Please allow permission in the Monzo app!")
             exit()
         print("error monzoing! error is:")
