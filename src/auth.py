@@ -2,7 +2,7 @@
 from dotenv import load_dotenv
 import requests
 import os
-from app import *
+from src.app import *
 
 load_dotenv()
 
