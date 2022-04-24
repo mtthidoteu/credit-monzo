@@ -44,7 +44,7 @@ def get_refresh_token():
         "client_id": truelayer_client_id,
         "client_secret": truelayer_client_secret,
         "redirect_uri": "https://console.truelayer.com/redirect-page",
-        "refresh_token": app.Data.get(app.Data.key == "refresh_token").value,
+        "refresh_token": app.Data.get(app.Data.key == "truelayer_refresh_token").value,
     }
 
     headers = {
@@ -57,15 +57,15 @@ def get_refresh_token():
     if not response.ok:
         return False
     app.Data.update(value=response.json()["access_token"]).where(
-        app.Data.key == "access_token").execute()
+        app.Data.key == "truelayer_access_token").execute()
     app.Data.update(value=response.json()["refresh_token"]).where(
-        app.Data.key == "refresh_token").execute()
+        app.Data.key == "truelayer_refresh_token").execute()
     return True
 
 
 def get_transactions():
-    access_token = app.Data.get(key="access_token").value
-    account_id = app.Data.get(key="account_id").value
+    access_token = app.Data.get(key="truelayer_access_token").value
+    account_id = app.Data.get(key="truelayer_account_id").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         f'https://api.truelayer.com/data/v1/cards/{account_id}/transactions/pending', headers=auth_header)
@@ -89,7 +89,7 @@ def monzo_refresh_token():
         "grant_type": "refresh_token",
         "client_id": monzo_client_id,
         "client_secret": monzo_client_secret,
-        "refresh_token": app.Data.get(app.Data.key == "refresh_token").value,
+        "refresh_token": app.Data.get(app.Data.key == "monzo_refresh_token").value,
     }
 
     headers = {
@@ -101,9 +101,9 @@ def monzo_refresh_token():
 
     if not response.ok:
         return False
-    app.Data.update(value=response.json()["access_token"]).where(
+    app.Data.update(value=response.json()["truelayer_access_token"]).where(
         app.Data.key == "monzo_access_token").execute()
-    app.Data.update(value=response.json()["refresh_token"]).where(
+    app.Data.update(value=response.json()["truelayer_refresh_token"]).where(
         app.Data.key == "monzo_refresh_token").execute()
     return True
 

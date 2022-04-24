@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 import requests
 import os
+import app
 
 load_dotenv()
 
@@ -14,7 +15,7 @@ def truelayer_auth_user():
     print('Please visit the following link and copy the token')
     print(f"https://auth.truelayer.com/?response_type=code&client_id={truelayer_client_id}&scope=info%20accounts%20balance%20cards%20transactions%20direct_debits%20standing_orders%20offline_access&redirect_uri=https://console.truelayer.com/redirect-page&providers=uk-oauth-amex&disable_providers=uk-ob-all")
     code = input("Please enter the code: ")
-    app.Data.delete().where(app.Data.key == "code").execute()
+    app.Data.delete().where(app.Data.key == "truelayer_auth_code").execute()
     app.Data.create(key="code", value=code)
 
 def truelayer_get_access_token():
@@ -25,7 +26,7 @@ def truelayer_get_access_token():
         "client_id": truelayer_client_id,
         "client_secret": truelayer_client_secret,
         "redirect_uri": "https://console.truelayer.com/redirect-page",
-        "code": app.Data.get(app.Data.key == "code").value,
+        "code": app.Data.get(app.Data.key == "truelayer_auth_code").value,
     }
 
     headers = {
@@ -41,16 +42,16 @@ def truelayer_get_access_token():
 
     access_token = response.json()["access_token"]
     refresh_token = response.json()["refresh_token"]
-    app.Data.create(key="access_token", value=access_token)
-    app.Data.create(key="refresh_token", value=refresh_token)
+    app.Data.create(key="truelayer_access_token", value=access_token)
+    app.Data.create(key="truelayer_refresh_token", value=refresh_token)
 
 def truelayer_get_account_id():
-    access_token = app.Data.get(key="access_token").value
+    access_token = app.Data.get(key="truelayer_access_token").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         'https://api.truelayer.com/data/v1/cards', headers=auth_header)
     account_id = (res.json()['results'][0])['account_id']
-    app.Data.create(key="account_id", value=account_id)
+    app.Data.create(key="truelayer_account_id", value=account_id)
 
 def monzo_token():
     auth_token = app.Data.get(key="monzo_auth_token").value
@@ -117,8 +118,8 @@ def check_variables():
         exit()
 
 def check_balance_for_testing_purposes():
-    access_token = app.Data.get(key="access_token").value
-    account_id = app.Data.get(key="account_id").value
+    access_token = app.Data.get(key="truelayer_access_token").value
+    account_id = app.Data.get(key="truelayer_account_id").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         f'https://api.truelayer.com/data/v1/cards/{account_id}/balance', headers=auth_header)
@@ -173,4 +174,3 @@ def reauth():
         else:
             exit()
 
-import app
