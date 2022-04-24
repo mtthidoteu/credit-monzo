@@ -1,11 +1,19 @@
 
 # Amex-Monzo
 
-A script to synchronise Amex Transactions and Monzo, which can be setup to be run every 15 minutes via cron.
+A script to synchronise Credit Card Transactions and Monzo, which can be setup to be run every 15 minutes via cron.
 #### Requirements
 - Monzo Account
-- American Express Account 
+- Support Credit Card 
 - Python >3.9 (Virtual Env is recommended!)
+
+### Supported Credit Card
+- American Express
+- Barclaycard (untested*)
+- Capital One (untested*)
+- Tesco Bank (untested*)
+
+* I haven't personally tested these but I don't see why it shouldn't work! The truelayer api is pretty straightforward
 
 
 | :exclamation:  Attention :exclamation:  |
