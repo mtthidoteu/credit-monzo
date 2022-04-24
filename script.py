@@ -148,8 +148,16 @@ def monzo(amount):
     response = requests.put(url, data=payload, headers=headers)
 
     if not response.ok:
+        message = response.text
+        if message["code"][0] == "bad_request.insufficient_funds":
+            print("Erorr! Your Monzo account has insufficient funds!")
+            exit()
+        if message["code"][0] == "forbidden.insufficient_permissions":
+            print("Error! Please allow permission in the Monzo app!")
+            exit()
         print("error monzoing! error is:")
         print(response.text)
+
         return False
 
     return True
