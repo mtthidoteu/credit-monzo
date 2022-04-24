@@ -59,7 +59,7 @@ Clone the project into directory
 ```
 -  Run authentication script
 ```bash
-  python app.py auth
+  python script.py auth
 ```
 - Following Instructions carefully! Make sure to read each line!
 - If the script has succeeded, you should be good to go!
@@ -68,7 +68,7 @@ Clone the project into directory
 Once the setup has been completed. You should be able to run a synchronisation by running
 
 ```bash
-python app.py run
+python script.py run
 ```
 This will download all your 'pending transactions' from your Amex account and add them to our database. It will then deposit that amount into a pot!
 
@@ -91,7 +91,7 @@ Please upgrade to > Python3.9
 
 #### How will I know if my tokens have expired?
 
-Currently I haven't implemented a very good error notification system and the script won't really throw errors. It'll just keep trying. However, if you notice it stops working, re-run `python app.py auth`
+Currently I haven't implemented a very good error notification system and the script won't really throw errors. It'll just keep trying. However, if you notice it stops working, re-run `python script.py auth`
 
 ## License
 [Common Clause](https://commonsclause.com)
