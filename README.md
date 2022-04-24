@@ -13,7 +13,7 @@ A script to synchronise Credit Card Transactions and Monzo, which can be setup t
 - Capital One (untested*)
 - Tesco Bank (untested*)
 
-* I haven't personally tested these but I don't see why it shouldn't work! The truelayer api is pretty straightforward
+I haven't personally tested all of these but I don't see why it shouldn't work! The truelayer api is pretty straightforward
 
 
 | :exclamation:  Attention :exclamation:  |
