@@ -42,6 +42,11 @@ def truelayer_get_access_token():
 
     access_token = response.json()["access_token"]
     refresh_token = response.json()["refresh_token"]
+    try:
+        Data.delete().where(key="truelayer_access_token").execute()
+        Data.delete().where(key="truelayer_refresh_token").execute()
+    except:
+        pass
     Data.create(key="truelayer_access_token", value=access_token)
     Data.create(key="truelayer_refresh_token", value=refresh_token)
 
@@ -51,6 +56,10 @@ def truelayer_get_account_id():
     res = requests.get(
         'https://api.truelayer.com/data/v1/cards', headers=auth_header)
     account_id = (res.json()['results'][0])['account_id']
+    try:
+        Data.delete().where(key="truelayer_account_id").execute()
+    except:
+        pass
     Data.create(key="truelayer_account_id", value=account_id)
 
 def monzo_token():
@@ -73,8 +82,10 @@ def monzo_token():
         get_new_monzo()
 
     access_token = response.json()["access_token"]
-    
-    Data.delete().where(Data.key=="monzo_access_token").execute()
+    try:
+        Data.delete().where(Data.key=="monzo_access_token").execute()
+    except:
+        pass
     Data.create(key="monzo_access_token", value=access_token)
     try:
         refresh_token = response.json()["refresh_token"]
