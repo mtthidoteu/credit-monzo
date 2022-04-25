@@ -55,7 +55,9 @@ def truelayer_get_account_id():
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         'https://api.truelayer.com/data/v1/cards', headers=auth_header)
-    account_id = (res.json()['results'][0])['account_id']
+        
+    print(res)
+    account_id = res.json()['results'][0]['account_id']
     try:
         Data.delete().where(key="truelayer_account_id").execute()
     except:
