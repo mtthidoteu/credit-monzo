@@ -1,5 +1,5 @@
 
-# Amex-Monzo
+# Credit-Monzo
 
 A script to synchronise Credit Card Transactions and Monzo, which can be setup to be run every 15 minutes via cron.
 #### Requirements
@@ -50,7 +50,7 @@ To run this project, you will need to add the following environment variables to
 Clone the project into directory
 
 ```bash
-  git clone https://github.com/mtthidoteu/amex-monzo.git
+  git clone https://github.com/mtthidoteu/credit-monzo
 ```
 
 - Create a TrueLayer Account
@@ -58,7 +58,7 @@ Clone the project into directory
 - Create Data API **Client_ID** and **client_secret** add add to `.env` file
 - Login to [Monzo Developers](https://developers.monzo.com) and login with Monzo Account
 - In Monzo Playground, make a GET request to `/pots?current_account_id=$account_id`
-- Locate and Add your Amex Pot's ID into `.env`
+- Locate and Add your Credit Pot's ID into `.env`
 - Make note of your 'account_id' and add it to `.env`
 - In Monzo Developers, create a Client with `Redirect URL` set to `http://127.0.0.1:5000/callback` and 'Confidentiality' set to 'Confindetial'!
 - Add newly created Client ID and Client Secret to `.env`
@@ -80,7 +80,7 @@ Once the setup has been completed. You should be able to run a synchronisation b
 ```bash
 python script.py run
 ```
-This will download all your 'pending transactions' from your Amex account and add them to our database. It will then deposit that amount into a pot!
+This will download all your 'pending transactions' from your Credit Card account and add them to our database. It will then deposit that amount into a pot!
 
 ## Making script run dynamically
 
