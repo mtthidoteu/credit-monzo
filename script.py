@@ -172,7 +172,11 @@ def warn(service):
     sendmail(f"Error on {service}",
              f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
-command = sys.argv[1]
+if sys.argv[1]:
+    command = sys.argv[1]
+else:
+    print(f"Invalid Usage: python {sys.argv[0]} run|auth")
+    exit()
 
 if command == "run":
     if not get_transactions():
