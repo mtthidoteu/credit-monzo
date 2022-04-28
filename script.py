@@ -105,6 +105,7 @@ def monzo_refresh_token():
     }
 
     response = requests.request("POST", url, json=payload, headers=headers)
+    print(response.text)
 
     if not response.ok:
         return False
