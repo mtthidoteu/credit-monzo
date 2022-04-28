@@ -109,9 +109,9 @@ def monzo_refresh_token():
 
     if not response.ok:
         return False
-    Data.update(value=response.json()["truelayer_access_token"]).where(
+    Data.update(value=response.json()["access_token"]).where(
         Data.key == "monzo_access_token").execute()
-    Data.update(value=response.json()["truelayer_refresh_token"]).where(
+    Data.update(value=response.json()["refresh_token"]).where(
         Data.key == "monzo_refresh_token").execute()
     return True
 
