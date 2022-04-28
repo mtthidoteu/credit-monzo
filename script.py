@@ -169,8 +169,8 @@ def monzo(amount):
 def warn(service):
     print(
         f"Error! Despite attempting to refresh its token, {service.capitalize()}, still cannot be reached. Please try running auth.py!")
-    sendmail(f"Error on {service}",
-             f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
+    #sendmail(f"Error on {service}",
+             #f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
 if sys.argv[1]:
     command = sys.argv[1]
