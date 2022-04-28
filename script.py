@@ -83,9 +83,10 @@ def get_transactions():
     transactions = res.json()['results']
     for transaction in transactions:
         Transactions.get_or_create(
+            transaction_id=transaction["transaction_id"],
             amount=transaction["amount"],
             description=transaction["description"],
-            timestamp=transaction["timestamp"])
+            )
     return True
 
 
