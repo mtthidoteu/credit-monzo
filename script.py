@@ -74,8 +74,21 @@ def get_transactions():
     access_token = Data.get_or_none(key="truelayer_access_token").value
     account_id = Data.get(key="truelayer_account_id").value
     auth_header = {'Authorization': f'Bearer {access_token}'}
+    #Below is getting the Pending transactions and adding them to database
     res = requests.get(
         f'https://api.truelayer.com/data/v1/cards/{account_id}/transactions/pending', headers=auth_header)
+    if not res.ok:
+        return False
+
+    transactions = res.json()['results']
+    for transaction in transactions:
+        Transactions.get_or_create(
+            transaction_id=transaction["transaction_id"],
+            amount=transaction["amount"],
+            description=transaction["description"])
+    #Below is getting the completed transactions and added them to database
+    res = requests.get(
+        f'https://api.truelayer.com/data/v1/cards/{account_id}/transactions', headers=auth_header)
     if not res.ok:
         return False
 
