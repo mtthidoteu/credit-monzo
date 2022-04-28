@@ -89,7 +89,7 @@ def get_transactions():
 
 
 def monzo_refresh_token():
-
+    print("Refreshing Monzo token!")
     url = "https://api.monzo.com/oauth2/token"
 
     payload = {
@@ -105,7 +105,7 @@ def monzo_refresh_token():
     }
 
     response = requests.request("POST", url, json=payload, headers=headers)
-    print(response.text)
+    
 
     if not response.ok:
         return False
