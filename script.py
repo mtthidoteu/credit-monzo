@@ -89,7 +89,7 @@ def get_transactions():
 
 
 def monzo_refresh_token():
-    print("Refreshing Monzo token!")
+
     url = "https://api.monzo.com/oauth2/token"
 
     payload = {
@@ -172,9 +172,9 @@ def warn(service):
     #sendmail(f"Error on {service}",
              #f"Error! Despite attempting to refresh its token {service.capitalize()} still cannot be reached. Please check application!")
 
-if sys.argv[1]:
+try:
     command = sys.argv[1]
-else:
+except:
     print(f"Invalid Usage: python {sys.argv[0]} run|auth")
     exit()
 
