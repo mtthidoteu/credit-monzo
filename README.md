@@ -40,6 +40,8 @@ To run this project, you will need to add the following environment variables to
 
 - `monzo_account_id`
 
+- `database_file`
+
 
 ## Installation and Setup
 

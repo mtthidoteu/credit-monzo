@@ -1,10 +1,10 @@
 from peewee import *
 from dotenv import load_dotenv
-
+import os
 
 load_dotenv()
 
-database = SqliteDatabase("./database.db")
+database = SqliteDatabase(os.getenv("database_file"))
 
 class BaseModel(Model):
     class Meta:

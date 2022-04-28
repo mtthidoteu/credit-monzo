@@ -56,7 +56,7 @@ def truelayer_get_account_id():
     res = requests.get(
         'https://api.truelayer.com/data/v1/cards', headers=auth_header)
         
-    print(res)
+    print(res.text)
     account_id = res.json()['results'][0]['account_id']
     try:
         Data.delete().where(key="truelayer_account_id").execute()
@@ -128,6 +128,9 @@ def check_variables():
         exit()
     if os.getenv("monzo_account_id") is None:
         print("Could not find pot_id! See docs.")
+        exit()
+    if os.getenv("database_file") is None:
+        print("Could not find DATABASE_FILE! See docs.")
         exit()
 
 def check_balance_for_testing_purposes():
