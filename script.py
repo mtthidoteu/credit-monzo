@@ -86,18 +86,6 @@ def get_transactions():
             amount=transaction["amount"],
             description=transaction["description"],
             timestamp=transaction["timestamp"])
-    #Below is getting the completed transactions and added them to database
-    res = requests.get(
-        f'https://api.truelayer.com/data/v1/cards/{account_id}/transactions', headers=auth_header)
-    if not res.ok:
-        return False
-
-    transactions = res.json()['results']
-    for transaction in transactions:
-        Transactions.get_or_create(
-            amount=transaction["amount"],
-            description=transaction["description"],
-            timestamp=transaction["timestamp"])
     return True
 
 
