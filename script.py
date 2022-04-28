@@ -184,12 +184,14 @@ if command == "run":
             if not monzo_them():
                 monzo_refresh_token()
                 if not monzo_them():
-                    warn("monzo")   
+                    warn("monzo")
+                    exit()
     else:
         if not monzo_them():
             monzo_refresh_token()
             if not monzo_them():
                 warn("monzo")
+                exit()
 
 elif command == "auth":
     print("Welcome to the amex-monzo authenticaton script!")
