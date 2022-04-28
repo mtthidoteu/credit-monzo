@@ -13,10 +13,10 @@ class BaseModel(Model):
 
 class Transactions(BaseModel):
     id = AutoField()
-    transaction_id = IntegerField(null=True)
     amount = FloatField(null=True)
     description = TextField(null=True)
     monzoed = IntegerField(null=True)
+    timestamp = TextField(null=True)
 
 
 class Data(BaseModel):
