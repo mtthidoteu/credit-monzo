@@ -98,11 +98,10 @@ def monzo_refresh_token():
         "grant_type": "refresh_token",
         "client_id": monzo_client_id,
         "client_secret": monzo_client_secret,
-        "redirect_uri": "http://127.0.0.1:5000/callback",
         "refresh_token": Data.get(Data.key == "monzo_refresh_token").value,
     }
 
-    response = requests.request("POST", url, json=payload)
+    response = requests.request("POST", url, data=payload)
     
     
     if not response.ok:
