@@ -101,12 +101,7 @@ def monzo_refresh_token():
         "refresh_token": Data.get(Data.key == "monzo_refresh_token").value,
     }
 
-    headers = {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-    }
-
-    response = requests.request("POST", url, json=payload, headers=headers)
+    response = requests.request("POST", url, json=payload)
     
 
     if not response.ok:
