@@ -188,13 +188,15 @@ if command == "run":
            warn("truelayer")
         else:
             if not monzo_them():
-                monzo_refresh_token()
+                if not monzo_refresh_token():
+                    print("Could not refresh Monzo token")
                 if not monzo_them():
                     warn("monzo")
                     exit()
     else:
         if not monzo_them():
-            monzo_refresh_token()
+            if not monzo_refresh_token():
+                print("Could not refresh Monzo token")
             if not monzo_them():
                 warn("monzo")
                 exit()
