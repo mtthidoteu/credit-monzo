@@ -110,6 +110,7 @@ def monzo_refresh_token():
     
 
     if not response.ok:
+        print(response.text)
         return False
     Data.update(value=response.json()["access_token"]).where(
         Data.key == "monzo_access_token").execute()
