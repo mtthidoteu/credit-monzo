@@ -1,32 +1,34 @@
-
 # Credit-Monzo
 
 A script to synchronise Credit Card Transactions and Monzo, which can be setup to be run every 15 minutes via cron.
+
 #### Requirements
+
 - Monzo Account
-- Support Credit Card 
+- Support Credit Card
 - Python >3.9 (Virtual Env is recommended!)
 
 ### Supported Credit Card
+
 - American Express
-- Barclaycard (untested*)
-- Capital One (untested*)
-- Tesco Bank (untested*)
+- Barclaycard (untested\*)
+- Capital One (untested\*)
+- Tesco Bank (untested\*)
 
 I haven't personally tested all of these but I don't see why it shouldn't work! The truelayer api is pretty straightforward
 
+| :exclamation: Attention :exclamation: |
+| ------------------------------------- |
 
-| :exclamation:  Attention :exclamation:  |
-|-----------------------------------------|
 The issue with the refresh token I had highlighted was in fact a misconfiguration! When you are creating your Monzo 'client', make sure to make it 'Confidential"!
 
 #### Work In progress
-- GUI for setting up and monitoring
 
+- GUI for setting up and monitoring
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file. Duplicate the `.env.example` file and rename to `.env`, then fill out the details. The database can be whatever you want to call the database file.
 
 - `truelayer_client_id`
 
@@ -41,7 +43,6 @@ To run this project, you will need to add the following environment variables to
 - `monzo_account_id`
 
 - `database_file`
-
 
 ## Installation and Setup
 
@@ -67,19 +68,24 @@ Clone the project into directory
 ```bash
   pip install -r requirements.txt
 ```
--  Run authentication script
+
+- Run authentication script
+
 ```bash
   python script.py auth
 ```
+
 - Following Instructions carefully! Make sure to read each line!
 - If the script has succeeded, you should be good to go!
 
 ## Running
+
 Once the setup has been completed. You should be able to run a synchronisation by running
 
 ```bash
 python script.py run
 ```
+
 This will download all your 'pending transactions' from your Credit Card account and add them to our database. It will then deposit that amount into a pot!
 
 ## Making script run dynamically
@@ -92,7 +98,6 @@ For example:
 */15 * * * * /path/to/python/or/venv /path/to/cloned/repository/app.py run
 ```
 
-
 ## FAQ
 
 #### I am getting Error TypeError: 'type' object is not subscriptable
@@ -104,4 +109,5 @@ Please upgrade to > Python3.9
 Currently I haven't implemented a very good error notification system and the script won't really throw errors. It'll just keep trying. However, if you notice it stops working, re-run `python script.py auth`
 
 ## License
+
 [Common Clause](https://commonsclause.com)
