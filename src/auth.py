@@ -13,7 +13,7 @@ monzo_client_secret = os.getenv("monzo_client_secret")
 
 def truelayer_auth_user():
     print('Please visit the following link and copy the token')
-    print(f"https://auth.truelayer.com/?response_type=code&client_id={truelayer_client_id}&scope=info%20accounts%20balance%20cards%20transactions%20direct_debits%20offline_access%20standing_orders&redirect_uri=https://console.truelayer.com/redirect-page&providers=uk-ob-barclaycard%20uk-ob-capital-one%20uk-ob-tesco%20uk-oauth-amex")
+    print(f"https://auth.truelayer.com/?response_type=code&client_id={truelayer_client_id}&scope=info%20accounts%20balance%20cards%20transactions%20direct_debits%20offline_access%20standing_orders&redirect_uri=https://console.truelayer.com/redirect-page&providers=uk-ob-barclaycard%20uk-ob-capital-one%20uk-ob-tesco%20uk-ob-amex")
     code = input("Please enter the code: ")
     Data.delete().where(Data.key == "truelayer_auth_code").execute()
     Data.create(key="truelayer_auth_code", value=code)
@@ -55,7 +55,7 @@ def truelayer_get_account_id():
     auth_header = {'Authorization': f'Bearer {access_token}'}
     res = requests.get(
         'https://api.truelayer.com/data/v1/cards', headers=auth_header)
-        
+
     print(res.text)
     account_id = res.json()['results'][0]['account_id']
     try:
